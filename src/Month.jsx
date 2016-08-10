@@ -283,8 +283,7 @@ let MonthView = React.createClass({
     let { components } = this.props;
 
     return (
-      <Overlay
-        rootClose
+      <Overlay        
         placement='bottom'
         container={this}
         show={!!overlay.position}
