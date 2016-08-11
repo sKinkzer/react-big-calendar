@@ -1,3 +1,12 @@
+# Fork from original react-big-calendar
+
+## Changelog by Taikala
+
+### Aug 11, 2016
+
+* Changed popover functionality so that you can pass shouldCloseOverlay function in props to calendar. If this prop is passed, the popover does not automatically close
+but instead calls the function with a click event. If the function returns true value, the popover closes, otherwise it remains open.
+
 react-big-calendar
 ========================
 

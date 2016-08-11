@@ -60,7 +60,19 @@ let MonthView = React.createClass({
   displayName: 'MonthView',
 
   propTypes,
-
+  
+  handleDocumentClick: function(e) {
+    if (this.state && this.state.overlay && this.state.overlay.position) {
+      if (this.props.shouldCloseOverlay && this.props.shouldCloseOverlay(e)) {
+        this.setState({
+          overlay: null
+        });        
+      } else {
+        return;
+      }
+    }    
+  },
+  
   getInitialState(){
     return {
       rowLimit: 5,
@@ -81,7 +93,7 @@ let MonthView = React.createClass({
 
   componentDidMount() {
     let running;
-
+    document.addEventListener('click', this.handleDocumentClick, false);
     if (this.state.needLimitMeasure)
       this._measureRowLimit(this.props)
 
@@ -101,6 +113,7 @@ let MonthView = React.createClass({
   },
 
   componentWillUnmount() {
+    document.removeEventListener('click', this.handleDocumentClick, false);
     window.removeEventListener('resize', this._resizeListener, false)
   },
 
@@ -283,13 +296,14 @@ let MonthView = React.createClass({
     let { components } = this.props;
 
     return (
-      <Overlay        
+      <Overlay
+        rootClose={!this.props.shouldCloseOverlay}
         placement='bottom'
         container={this}
         show={!!overlay.position}
         onHide={() => this.setState({ overlay: null })}
       >
-        <Popup
+        <Popup        
           {...this.props}
           eventComponent={components.event}
           position={overlay.position}
