@@ -33,7 +33,7 @@ class DateLocalizer {
     this.startOfWeek = spec.firstOfWeek
 
     this.format = (...args) => _format(this, spec.format, ...args)
-
+    this.weekNumber = spec.weekNumber
     this.parse = (value, format, culture) => {
       let result = spec.parse.call(this, value, format, culture)
 
@@ -73,6 +73,10 @@ let exp = {
 
   startOfWeek(...args){
     return localizer.startOfWeek(...args)
+  },
+  
+  weekNumber(...args) {
+    return localizer.weekNumber(...args);
   }
 }
 

@@ -2,6 +2,9 @@
 
 ## Changelog by Taikala
 
+### Aug 12, 2016
+* Display week number in calendar view if props.showWeekNumbers = true
+
 ### Aug 11, 2016
 
 * Changed popover functionality so that you can pass shouldCloseOverlay function in props to calendar. If this prop is passed, the popover does not automatically close

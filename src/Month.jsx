@@ -243,7 +243,7 @@ let MonthView = React.createClass({
   _dates(row){
     return row.map((day, colIdx) => {
       var offRange = dates.month(day) !== dates.month(this.props.date);
-
+      
       return (
         <div
           key={'header_' + colIdx}
@@ -254,12 +254,24 @@ let MonthView = React.createClass({
             'rbc-current': dates.eq(day, this.props.date, 'day')
           })}
         >
+          {this._weekNumber(day, colIdx)}
           <a href='#' onClick={this._dateClick.bind(null, day)}>
             { localizer.format(day, this.props.dateFormat, this.props.culture) }
           </a>
         </div>
       )
     })
+  },
+  
+  _weekNumber(day, colIdx) {
+    if (!this.props.showWeekNumbers || colIdx !== 0) {
+      return;
+    }
+    return (
+      <span className="rbc-week-number">
+        {localizer.weekNumber(day)}
+      </span>
+    );    
   },
 
   _headers(row, format, culture){
