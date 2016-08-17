@@ -2,7 +2,10 @@
 
 ## Changelog by Taikala
 
-### Aug 12, 2016
+### Aug 17, 2016 (0.10.5)
+* Added past days class to month view
+
+### Aug 12, 2016 (0.10.4)
 * Display week number in calendar view if props.showWeekNumbers = true
 
 ### Aug 11, 2016

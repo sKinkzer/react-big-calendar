@@ -5,13 +5,15 @@ import { segStyle } from './utils/eventLevels';
 import { notify } from './utils/helpers';
 import { dateCellSelection, slotWidth, getCellAtX, pointInBox } from './utils/selection';
 import Selection, { getBoundsForNode } from './Selection';
+import localizer from './localizer';
 
 class DisplayCells extends React.Component {
 
   static propTypes = {
     selectable: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
-    slots: React.PropTypes.number
+    slots: React.PropTypes.number,
+    week: React.PropTypes.array
   }
 
   state = { selecting: false }
@@ -33,18 +35,20 @@ class DisplayCells extends React.Component {
   }
 
   render(){
-    let { slots } = this.props;
+    let { slots, week } = this.props;
     let { selecting, startIdx, endIdx } = this.state
-
+    
+    let now = new Date();
     let children = [];
-
+    
     for (var i = 0; i < slots; i++) {
       children.push(
         <div
           key={'bg_' + i}
           style={segStyle(1, slots)}
           className={cn('rbc-day-bg', {
-            'rbc-selected-cell': selecting && i >= startIdx && i <= endIdx
+            'rbc-selected-cell': selecting && i >= startIdx && i <= endIdx,
+            'rbc-past': this._inPast(week[i], now)
           })}
         />
       )
@@ -56,7 +60,11 @@ class DisplayCells extends React.Component {
       </div>
     )
   }
-
+  
+  _inPast(date, current) {  
+    return localizer.inPast(date, current);
+  }
+  
   _selectable(){
     let node = findDOMNode(this);
     let selector = this._selector = new Selection(this.props.container)

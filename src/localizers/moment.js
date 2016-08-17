@@ -58,8 +58,13 @@ export default function (moment){
     format(value, format, culture) {
       return locale(moment(value), culture).format(format)
     },
+    
     weekNumber(date) {
       return moment(date).week();
+    },
+    
+    inPast(date, current) {
+      return moment(current).isAfter(date, 'day');
     }
     
   })

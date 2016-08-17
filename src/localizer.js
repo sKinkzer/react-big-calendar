@@ -34,6 +34,8 @@ class DateLocalizer {
 
     this.format = (...args) => _format(this, spec.format, ...args)
     this.weekNumber = spec.weekNumber
+    this.inPast = spec.inPast
+    
     this.parse = (value, format, culture) => {
       let result = spec.parse.call(this, value, format, culture)
 
@@ -77,7 +79,12 @@ let exp = {
   
   weekNumber(...args) {
     return localizer.weekNumber(...args);
+  },
+  
+  inPast(...args) {
+    return localizer.inPast(...args);
   }
+  
 }
 
 export default exp
