@@ -2,6 +2,9 @@
 
 ## Changelog by Taikala
 
+### Aug 25, 2016 (0.10.6)
+* Added past days class to week view
+
 ### Aug 17, 2016 (0.10.5)
 * Added past days class to month view
 

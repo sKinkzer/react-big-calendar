@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import cn from 'classnames';
 
 import dates from './utils/dates';
+import localizer from './localizer';
 
 import TimeSlotGroup from './TimeSlotGroup'
 
@@ -65,7 +66,9 @@ export default class TimeColumn extends Component {
 
     return (
       <div
-        className={cn(this.props.className, 'rbc-time-column')}
+        className={cn(this.props.className, 'rbc-time-column', {
+          'rbc-past': localizer.inPast(this.props.min, new Date())
+        })}
         style={this.props.style}
       >
         {timeslots}

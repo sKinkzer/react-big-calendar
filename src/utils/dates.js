@@ -104,12 +104,21 @@ let dates = Object.assign(dateMath, {
   },
 
   isJustDate(date){
-    return (
-         dates.hours(date) === 0
-      && dates.minutes(date) === 0
-      && dates.seconds(date) === 0
-      && dates.milliseconds(date) === 0
-    )
+    if(!date instanceof Date) {
+      return false;
+    }
+    try {
+      return (
+           dates.hours(date) === 0
+        && dates.minutes(date) === 0
+        && dates.seconds(date) === 0
+        && dates.milliseconds(date) === 0
+      )
+    } catch (e) {
+      console.log(e);
+      console.log(date);
+      return false;
+    }
   },
 
   duration(start, end, unit, firstOfWeek){

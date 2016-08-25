@@ -240,6 +240,7 @@ export default class TimeGrid extends Component {
           <div ref='allDay' className='rbc-allday-cell'>
             <BackgroundCells
               slots={range.length}
+              week={range}
               container={()=> this.refs.allDay}
               selectable={this.props.selectable}
             />

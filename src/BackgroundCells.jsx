@@ -40,7 +40,6 @@ class DisplayCells extends React.Component {
     
     let now = new Date();
     let children = [];
-    
     for (var i = 0; i < slots; i++) {
       children.push(
         <div
@@ -48,7 +47,7 @@ class DisplayCells extends React.Component {
           style={segStyle(1, slots)}
           className={cn('rbc-day-bg', {
             'rbc-selected-cell': selecting && i >= startIdx && i <= endIdx,
-            'rbc-past': this._inPast(week[i], now)
+            'rbc-past': week ? this._inPast(week[i], now) : false
           })}
         />
       )
