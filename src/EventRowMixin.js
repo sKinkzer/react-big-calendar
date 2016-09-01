@@ -32,7 +32,7 @@ export default {
     }
   },
 
-  renderEvent(event){
+  renderEvent(event, key){
     let {
         eventPropGetter, selected, start, end
       , startAccessor, endAccessor, titleAccessor
@@ -40,6 +40,7 @@ export default {
 
     return (
       <EventCell
+        key={key}
         event={event}
         eventPropGetter={eventPropGetter}
         onSelect={onSelect}

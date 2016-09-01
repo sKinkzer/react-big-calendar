@@ -12,6 +12,7 @@ import getPosition from 'dom-helpers/query/position';
 import raf from 'dom-helpers/util/requestAnimationFrame';
 
 import EventRow from './EventRow';
+import SingleEventRow from './SingleEventRow';
 import EventEndingRow from './EventEndingRow';
 import Popup from './Popup';
 import Overlay from 'react-overlays/lib/Overlay';
@@ -76,7 +77,8 @@ let MonthView = React.createClass({
   getInitialState(){
     return {
       rowLimit: 5,
-      needLimitMeasure: true
+      needLimitMeasure: true,
+      selectedDate: this.props.date
     }
   },
 
@@ -87,7 +89,8 @@ let MonthView = React.createClass({
 
   componentWillReceiveProps({ date }) {
     this.setState({
-      needLimitMeasure: !dates.eq(date, this.props.date)
+      needLimitMeasure: !dates.eq(date, this.props.date),
+      selectedDate: !dates.eq(date, this.props.date) ? date : this.state.selectedDate
     })
   },
 
@@ -118,21 +121,21 @@ let MonthView = React.createClass({
   },
 
   render() {
-    let { date, culture, weekdayFormat, className } = this.props
+    let { date, culture, weekdayFormat, className, singleRow } = this.props
       , month = dates.visibleDays(date, culture)
       , weeks  = chunk(month, 7);
 
     let measure = this.state.needLimitMeasure
-
+    let content = singleRow ? (measure && this._renderMeasureRows) || this.singeRowRender : measure && this._renderMeasureRows;
     this._weekCount = weeks.length;
-
+    
     return (
       <div className={cn('rbc-month-view', className)}>
         <div className='rbc-row rbc-month-header'>
           {this._headers(weeks[0], weekdayFormat, culture)}
         </div>
         { weeks.map((week, idx) =>
-            this.renderWeek(week, idx, measure && this._renderMeasureRows))
+            this.renderWeek(week, idx, content))
         }
       </div>
     )
@@ -169,7 +172,7 @@ let MonthView = React.createClass({
             { this._dates(week) }
           </div>
           {
-            content(levels, week, weekIdx)
+            content(this.props.singleRow ? segments : levels, week, weekIdx)
           }
           {
             !!extra.length &&
@@ -191,6 +194,10 @@ let MonthView = React.createClass({
 
       clearTimeout(self._selectTimer)
       self._selectTimer = setTimeout(()=> self._selectDates())
+
+      self.setState({
+        selectedDate: row[start]
+      });
     }
 
     return (
@@ -210,6 +217,22 @@ let MonthView = React.createClass({
 
     return (
       <EventRow
+        {...this.props}
+        eventComponent={this.props.components.event}
+        onSelect={this._selectEvent}
+        key={idx}
+        segments={segments}
+        start={first}
+        end={last}
+      />
+    )
+  },
+  
+  singeRowRender(segments, week, idx) {
+    let { first, last } = endOfRange(week);
+
+    return (
+      <SingleEventRow
         {...this.props}
         eventComponent={this.props.components.event}
         onSelect={this._selectEvent}
@@ -243,7 +266,6 @@ let MonthView = React.createClass({
   _dates(row){
     return row.map((day, colIdx) => {
       var offRange = dates.month(day) !== dates.month(this.props.date);
-      
       return (
         <div
           key={'header_' + colIdx}
@@ -251,7 +273,8 @@ let MonthView = React.createClass({
           className={cn('rbc-date-cell', {
             'rbc-off-range': offRange,
             'rbc-now': dates.eq(day, new Date(), 'day'),
-            'rbc-current': dates.eq(day, this.props.date, 'day')
+            'rbc-current': dates.eq(day, this.props.date, 'day'),
+            'rbc-selected': dates.eq(day, this.state.selectedDate, 'day')
           })}
         >
           {this._weekNumber(day, colIdx)}
@@ -344,7 +367,10 @@ let MonthView = React.createClass({
 
   _dateClick(date, e){
     e.preventDefault();
-    this.clearSelection()
+    this.clearSelection();
+    this.setState({
+      selectedDate: date
+    });
     notify(this.props.onNavigate, [navigate.DATE, date])
   },
 
