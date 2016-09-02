@@ -2,6 +2,11 @@
 
 ## Changelog by Taikala
 
+### Sep 2, 2016 (0.10.7)
+* New prop for month view: singleRow = true, which will show events on one row instead of 
+one row per event
+* Selecting a slot adds rbc-selected class to the rbc-date-cell.
+
 ### Aug 25, 2016 (0.10.6)
 * Added past days class to week view
 
