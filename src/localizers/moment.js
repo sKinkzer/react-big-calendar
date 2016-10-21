@@ -65,6 +65,10 @@ export default function (moment){
     
     inPast(date, current) {
       return moment(current).isAfter(date, 'day');
+    },
+    
+    isToday(date, current) {
+      return moment(current).isSame(date, 'day');
     }
     
   })

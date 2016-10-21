@@ -47,7 +47,8 @@ class DisplayCells extends React.Component {
           style={segStyle(1, slots)}
           className={cn('rbc-day-bg', {
             'rbc-selected-cell': selecting && i >= startIdx && i <= endIdx,
-            'rbc-past': week ? this._inPast(week[i], now) : false
+            'rbc-past': week ? this._inPast(week[i], now) : false,
+            'rbc-today': week ? this._isToday(week[i], now) : false
           })}
         />
       )
@@ -62,6 +63,10 @@ class DisplayCells extends React.Component {
   
   _inPast(date, current) {  
     return localizer.inPast(date, current);
+  }
+  
+  _isToday(date, current) {  
+    return localizer.isToday(date, current);
   }
   
   _selectable(){

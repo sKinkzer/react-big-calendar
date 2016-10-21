@@ -35,7 +35,7 @@ class DateLocalizer {
     this.format = (...args) => _format(this, spec.format, ...args)
     this.weekNumber = spec.weekNumber
     this.inPast = spec.inPast
-    
+    this.isToday = spec.isToday
     this.parse = (value, format, culture) => {
       let result = spec.parse.call(this, value, format, culture)
 
@@ -83,6 +83,10 @@ let exp = {
   
   inPast(...args) {
     return localizer.inPast(...args);
+  },
+  
+  isToday(...args) {
+    return localizer.isToday(...args);
   }
   
 }
