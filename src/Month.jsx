@@ -371,6 +371,7 @@ let MonthView = React.createClass({
     this.setState({
       selectedDate: date
     });
+    notify(this.props.onSelectSlot);
     notify(this.props.onNavigate, [navigate.DATE, date])
   },
 
