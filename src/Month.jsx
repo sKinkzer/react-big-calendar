@@ -175,7 +175,7 @@ let MonthView = React.createClass({
             content(this.props.singleRow ? segments : levels, week, weekIdx)
           }
           {
-            !!extra.length &&
+            !this.props.singleRow && !!extra.length &&
               this.renderShowMore(segments, extra, week, weekIdx, levels.length)
           }
         </div>
